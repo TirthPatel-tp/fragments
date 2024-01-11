@@ -1,0 +1,17 @@
+{
+  "name": "fragments",
+  "private": true,
+  "version": "0.0.1",
+  "description": "CCP555NSA Course all the labs and assignment will be posted here",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TirthPatel-tp/fragments.git"
+  },
+  "keywords": [],
+  "author": "Tirth Patel",
+  "license": "UNLICENSED"
+}
