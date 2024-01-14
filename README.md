@@ -41,11 +41,10 @@ Make sure you have the following software installed on your development machine:
 
 5.  **_Setup ESLint:_**
 
-        ``` bash
-        Copy code
-        npm install --save-dev eslint
-        npx eslint --init
-        ```
+    ```bash
+    npm install --save-dev eslint
+    npx eslint --init
+    ```
 
 6.  **_Structured Logging and Pino Setup:_**
 
