@@ -2,9 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
+const passport = require('passport');
 
 // const { author, version } = require('../package.json');
-
+const authenticate = require('./auth');
 const logger = require('./logger');
 const pino = require('pino-http')({
   // Use our default logger instance, which is already configured
@@ -12,6 +13,17 @@ const pino = require('pino-http')({
 });
 
 const app = express();
+
+// Use gzip/deflate compression middleware
+app.use(compression());
+
+// Set up our passport authentication middleware
+
+passport.use(authenticate.strategy());
+app.use(passport.initialize());
+
+// Define our routes
+app.use('/', require('./routes'));
 
 // Use pino logging middleware
 app.use(pino);
