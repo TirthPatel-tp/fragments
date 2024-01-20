@@ -3,6 +3,11 @@ const options = { level: process.env.LOG_LEVEL || 'info' };
 
 // If we're doing `debug` logging, make the logs easier to read
 if (options.level === 'debug') {
+  // Get Pino logger instance
+  const logger = require('pino')(options);
+  // Print all environment variables using logger.debug
+  logger.debug({ environmentVariables: process.env });
+
   // https://github.com/pinojs/pino-pretty
   options.transport = {
     target: 'pino-pretty',
