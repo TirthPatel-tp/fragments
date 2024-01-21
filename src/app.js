@@ -31,14 +31,14 @@ app.use(pino);
 app.use(helmet());
 
 // Use CORS middleware so we can make requests across origins
-// app.use(cors());
+app.use(cors());
 
-app.use(
-  cors({
-    origin: 'http://localhost:1234',
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: 'http://localhost:1234',
+//     credentials: true,
+//   })
+// );
 
 // Use gzip/deflate compression middleware
 app.use(compression());
