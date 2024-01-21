@@ -1,3 +1,5 @@
+// src/app.js
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -14,16 +16,13 @@ const pino = require('pino-http')({
 
 const app = express();
 
-// Use gzip/deflate compression middleware
-app.use(compression());
+// // Use gzip/deflate compression middleware
+// app.use(compression());
 
 // Set up our passport authentication middleware
 
 passport.use(authenticate.strategy());
 app.use(passport.initialize());
-
-// Define our routes
-app.use('/', require('./routes'));
 
 // Use pino logging middleware
 app.use(pino);
@@ -32,7 +31,14 @@ app.use(pino);
 app.use(helmet());
 
 // Use CORS middleware so we can make requests across origins
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: 'http://localhost:1234',
+    credentials: true,
+  })
+);
 
 // Use gzip/deflate compression middleware
 app.use(compression());
