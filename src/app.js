@@ -7,7 +7,7 @@ const compression = require('compression');
 const passport = require('passport');
 
 // const { author, version } = require('../package.json');
-const authenticate = require('./auth');
+const authenticate = require('./auth/index');
 const logger = require('./logger');
 const pino = require('pino-http')({
   // Use our default logger instance, which is already configured
