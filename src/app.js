@@ -5,22 +5,16 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const passport = require('passport');
-
-// const { author, version } = require('../package.json');
+const { createErrorResponse } = require('./response');
 const authenticate = require('./auth/index');
 const logger = require('./logger');
 const pino = require('pino-http')({
-  // Use our default logger instance, which is already configured
   logger,
 });
 
 const app = express();
 
-// // Use gzip/deflate compression middleware
-// app.use(compression());
-
 // Set up our passport authentication middleware
-
 passport.use(authenticate.strategy());
 app.use(passport.initialize());
 
@@ -33,47 +27,22 @@ app.use(helmet());
 // Use CORS middleware so we can make requests across origins
 app.use(cors());
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:1234',
-//     credentials: true,
-//   })
-// );
-
 // Use gzip/deflate compression middleware
 app.use(compression());
-
-// app.get('/', (req, res) => {
-//   // Clients shouldn't cache this response (always request it fresh)
-//   // See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#controlling_caching
-//   res.setHeader('Cache-Control', 'no-cache');
-
-//   // Send a 200 'OK' response with info about our repo
-//   res.status(200).json({
-//     status: 'ok',
-//     author,
-//     githubUrl: 'https://github.com/TirthPatel-tp/fragments.git',
-//     version,
-//   });
-// });
 
 // Define our routes
 app.use('/', require('./routes'));
 
 // Add 404 middleware to handle any requests for resources that can't be found
 app.use((req, res) => {
-  res.status(404).json({
-    status: 'error',
-    error: {
-      message: 'not found',
-      code: 404,
-    },
-  });
+  // Use createErrorResponse function for the response
+  const errorResponse = createErrorResponse(404, 'not found');
+
+  res.status(404).json(errorResponse);
 });
 
 // Add error-handling middleware to deal with anything else
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // We may already have an error response we can use, but if not,
   // use a generic `500` server error and message.
   const status = err.status || 500;
