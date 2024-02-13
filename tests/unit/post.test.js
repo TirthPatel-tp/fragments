@@ -1,63 +1,50 @@
-// tests/unit/post.test.js
-
 const request = require('supertest');
-const express = require('express');
-const app = express();
-const postRoute = require('../../src/routes/api/post');
-const { Fragment } = require('../../src/model/fragment');
+const app = require('../../src/app');
 
-app.use(express.json());
-app.use('/', postRoute);
-
-describe('POST /fragments', () => {
-  test('creates a new fragment with valid data', async () => {
-    const response = await request(app)
-      .post('/fragments')
+describe('POST /v1/fragments', () => {
+  test('unauthenticated requests are denied', () => request(app).post('/v1/fragments').expect(401));
+  test('incorrect credentials are denied', () =>
+    request(app).post('/v1/fragments').auth('invalid@email.com', 'incorrect_password').expect(401));
+  test('authenticated users create a plain text fragment, response include expected properties', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
       .set('Content-Type', 'text/plain')
-      .send('Hello, World!');
+      .send('aa');
+    const body = JSON.parse(res.text);
+    expect(res.statusCode).toBe(201);
+    expect(body.status).toBe('ok');
+    expect(body.fragment.type).toMatch(/text\/plain+/);
+    expect(Object.keys(body.fragment)).toEqual([
+      'id',
+      'ownerId',
+      'created',
+      'updated',
+      'type',
+      'size',
+    ]);
+    expect(body.fragment.size).toEqual(2);
+  });
 
-    expect(response.statusCode).toBe(201);
-    expect(response.body).toHaveProperty('id');
-    expect(response.body).toHaveProperty('ownerId', 'exampleOwnerId');
-    expect(response.body).toHaveProperty('created');
-    expect(response.body).toHaveProperty('updated');
-    expect(response.body).toHaveProperty('type', 'text/plain');
-    expect(response.body).toHaveProperty('size', 13); // Length of 'Hello, World!'
-    expect(response.header['location']).toMatch(
-      new RegExp(`http://.*?/fragments/${response.body.id}`)
+  //responses include a Location header with a URL to GET the fragment
+  test('response include a Location header with a URL to GET the fragment', async () => {
+    const res = await request(app)
+      .post('/v1/fragments')
+      .auth('user1@email.com', 'password1')
+      .set('Content-Type', 'text/plain')
+      .send('This is fragment');
+    expect(res.statusCode).toBe(201);
+    expect(res.headers.location).toEqual(
+      `${process.env.API_URL}/v1/fragments/${JSON.parse(res.text).fragment.id}`
     );
   });
 
-  test('returns 400 for invalid or empty buffer', async () => {
-    const response = await request(app)
-      .post('/fragments')
-      .set('Content-Type', 'text/plain')
-      .send('');
-
-    expect(response.statusCode).toBe(400);
-    expect(response.text).toBe('Invalid fragment data');
-  });
-
-  test('returns 400 for unsupported content type', async () => {
-    const response = await request(app)
-      .post('/fragments')
-      .set('Content-Type', 'application/json')
-      .send('{"key": "value"}');
-
-    expect(response.statusCode).toBe(400);
-    expect(response.text).toBe('Invalid fragment data');
-  });
-
-  test('returns 500 for internal server error', async () => {
-    const mockFragmentSave = jest.spyOn(Fragment.prototype, 'save');
-    mockFragmentSave.mockRejectedValue(new Error('Internal Server Error'));
-
-    const response = await request(app)
-      .post('/fragments')
-      .set('Content-Type', 'text/plain')
-      .send('Hello, World!');
-
-    expect(response.statusCode).toBe(500);
-    expect(response.text).toBe('Internal Server Error');
-  });
+  //trying to create a fragment with an unsupported type errors as expected
+  test('get unsupported type error', () =>
+    request(app)
+      .post('/v1/fragments')
+      .set('Content-Type', 'audio/mp4')
+      .auth('user1@email.com', 'password1')
+      .send('aa')
+      .expect(415));
 });
