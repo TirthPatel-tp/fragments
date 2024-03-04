@@ -1,0 +1,21 @@
+.github/
+.vscode/
+coverage/
+# ignore the build and cache directories
+.docusaurus/
+build/
+
+node_modules/
+tests/
+!tests/.htpasswd
+.env
+.eslintrc.js
+.git/
+.gitignore
+.prettier*
+jest*
+.husky/
+.git*
+*.md
+# Include the license so we don't break the license/copyright
+!LICENSE.md
