@@ -3,9 +3,10 @@ const { Fragment } = require('../../model/fragment');
 const logger = require('../../logger');
 
 module.exports = async (req, res) => {
-  logger.debug('Post: ' + req.body);
+  logger.debug('Received request with body: ' + JSON.stringify(req.body));
 
   if (!Buffer.isBuffer(req.body)) {
+    logger.error('Unsupported Media Type: Request body is not a buffer');
     return res.status(415).json(createErrorResponse(415, 'Unsupported Media Type'));
   }
 
@@ -24,6 +25,7 @@ module.exports = async (req, res) => {
       })
     );
   } catch (err) {
+    logger.error('Error occurred while processing request:', err);
     res.status(500).json(createErrorResponse(500, err.message));
   }
 };
