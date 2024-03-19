@@ -2,6 +2,7 @@
 
 const { randomUUID } = require('crypto');
 const contentType = require('content-type');
+const md = require('markdown-it')();
 const mime = require('mime-types');
 const {
   readFragment,
