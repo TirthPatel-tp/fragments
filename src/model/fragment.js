@@ -1,9 +1,9 @@
+// src/model/fragment.js
+
 const { randomUUID } = require('crypto');
 const contentType = require('content-type');
 const md = require('markdown-it')();
-var mime = require('mime-types');
-const logger = require('../logger');
-
+const mime = require('mime-types');
 const {
   readFragment,
   writeFragment,
@@ -12,6 +12,7 @@ const {
   listFragments,
   deleteFragment,
 } = require('./data');
+const logger = require('pino')();
 
 class Fragment {
   constructor({
@@ -22,23 +23,30 @@ class Fragment {
     type = '',
     size = 0,
   }) {
-    if (!ownerId || !type) {
-      throw new Error('ownerId and type are required');
-    }
+    try {
+      if (!ownerId || !type) {
+        throw new Error('ownerId and type are required');
+      }
 
-    if (!Fragment.isSupportedType(type)) {
-      throw new Error('Invalid fragment type');
-    }
+      if (!Fragment.isSupportedType(type)) {
+        throw new Error('Invalid fragment type');
+      }
 
-    this.id = id;
-    this.ownerId = ownerId;
-    this.created = created;
-    this.updated = updated;
-    this.type = type;
-    this.size = size;
+      if (typeof size !== 'number' || size < 0) {
+        throw new Error('size must be a non-negative number');
+      }
 
-    if (typeof this.size !== 'number' || this.size < 0) {
-      throw new Error('size must be a non-negative number');
+      this.id = id;
+      this.ownerId = ownerId;
+      this.created = created;
+      this.updated = updated;
+      this.type = type;
+      this.size = size;
+
+      logger.debug('Fragment created', { id: this.id, ownerId: this.ownerId });
+    } catch (error) {
+      logger.error('Error creating fragment', { error: error.message });
+      throw error;
     }
   }
 
@@ -50,6 +58,7 @@ class Fragment {
       }
       return fragments;
     } catch (err) {
+      logger.error('Error fetching fragments by user', { ownerId, error: err.message });
       return [];
     }
   }
@@ -58,87 +67,157 @@ class Fragment {
     try {
       return new Fragment(await readFragment(ownerId, id));
     } catch (error) {
-      logger.error('unable to find fragment by that id');
+      logger.error('Error fetching fragment by ID', { ownerId, id, error: error.message });
       throw new Error('unable to find fragment by that id');
     }
   }
 
   static async delete(ownerId, id) {
-    await deleteFragment(ownerId, id);
+    try {
+      await deleteFragment(ownerId, id);
+      logger.info('Fragment deleted successfully', { ownerId, id });
+    } catch (error) {
+      logger.error('Error deleting fragment', { ownerId, id, error: error.message });
+      throw error;
+    }
   }
 
   async save() {
-    this.updated = new Date().toISOString();
-    await writeFragment(this);
+    try {
+      this.updated = new Date().toISOString();
+      await writeFragment(this);
+      logger.debug('Fragment saved successfully', { id: this.id, ownerId: this.ownerId });
+    } catch (error) {
+      logger.error('Error saving fragment', {
+        id: this.id,
+        ownerId: this.ownerId,
+        error: error.message,
+      });
+      throw error;
+    }
   }
 
-  getData() {
+  async getData() {
     try {
-      return readFragmentData(this.ownerId, this.id)
-        .then((data) => Buffer.from(data))
-        .catch(() => {
-          throw new Error('unable to get data');
-        });
-    } catch (err) {
+      const data = await readFragmentData(this.ownerId, this.id);
+      logger.debug('Fragment data fetched successfully', { id: this.id, ownerId: this.ownerId });
+      return Buffer.from(data);
+    } catch (error) {
+      logger.error('Error getting fragment data', {
+        id: this.id,
+        ownerId: this.ownerId,
+        error: error.message,
+      });
       throw new Error('unable to get data');
     }
   }
 
   async setData(data) {
-    if (!data) {
-      throw new Error();
-    } else {
-      this.updated = new Date().toISOString();
-      this.size = Buffer.byteLength(data);
-      await writeFragment(this);
-      return await writeFragmentData(this.ownerId, this.id, data);
+    try {
+      if (!data) {
+        throw new Error();
+      } else {
+        this.updated = new Date().toISOString();
+        this.size = Buffer.byteLength(data);
+        await writeFragment(this);
+        await writeFragmentData(this.ownerId, this.id, data);
+        logger.debug('Fragment data set successfully', { id: this.id, ownerId: this.ownerId });
+      }
+    } catch (error) {
+      logger.error('Error setting fragment data', {
+        id: this.id,
+        ownerId: this.ownerId,
+        error: error.message,
+      });
+      throw error;
     }
   }
 
   get isText() {
-    const { type } = contentType.parse(this.type);
-    return type.startsWith('text/');
+    try {
+      const { type } = contentType.parse(this.type);
+      return type.startsWith('text/');
+    } catch (error) {
+      logger.error('Error getting fragment text type', {
+        id: this.id,
+        ownerId: this.ownerId,
+        error: error.message,
+      });
+      return false;
+    }
   }
 
   get formats() {
-    if (this.mimeType === 'text/plain') {
-      return ['text/plain'];
-    } else if (this.mimeType === 'text/markdown') {
-      return ['text/plain', 'text/markdown', 'text/html'];
-    } else if (this.mimeType === 'text/html') {
-      return ['text/plain', 'text/html'];
-    } else if (this.mimeType === 'application/json') {
-      return ['text/plain', 'application/json'];
-    } else {
-      return [this.mimeType];
+    try {
+      if (this.mimeType === 'text/plain') {
+        return ['text/plain'];
+      } else if (this.mimeType === 'text/markdown') {
+        return ['text/plain', 'text/markdown', 'text/html'];
+      } else if (this.mimeType === 'text/html') {
+        return ['text/plain', 'text/html'];
+      } else if (this.mimeType === 'application/json') {
+        return ['text/plain', 'application/json'];
+      } else {
+        return [this.mimeType];
+      }
+    } catch (error) {
+      logger.error('Error getting fragment formats', {
+        id: this.id,
+        ownerId: this.ownerId,
+        error: error.message,
+      });
+      return [];
     }
   }
 
   static isSupportedType(value) {
-    const { type } = contentType.parse(value);
-    return validTypes.includes(type);
+    try {
+      const { type } = contentType.parse(value);
+      return validTypes.includes(type);
+    } catch (error) {
+      logger.error('Error checking fragment supported type', { value, error: error.message });
+      return false;
+    }
   }
 
   get mimeType() {
-    const { type } = contentType.parse(this.type);
-    return type;
+    try {
+      const { type } = contentType.parse(this.type);
+      return type;
+    } catch (error) {
+      logger.error('Error getting fragment MIME type', {
+        id: this.id,
+        ownerId: this.ownerId,
+        error: error.message,
+      });
+      return '';
+    }
   }
 
-  convertType(data, ext) {
-    let desiredType = mime.lookup(ext);
-    const availableFormats = this.formats;
-    if (!availableFormats.includes(desiredType)) {
-      logger.warn('Cant covert to this type');
+  static convertType(data, ext) {
+    try {
+      let desiredType = mime.lookup(ext);
+      const availableFormats = this.formats;
+      if (!availableFormats.includes(desiredType)) {
+        logger.warn("Can't convert to this type");
+        return false;
+      }
+      let resultdata = data;
+      if (this.mimeType !== desiredType) {
+        if (this.mimeType === 'text/markdown' && desiredType === 'text/html') {
+          resultdata = md.render(data.toString());
+          resultdata = Buffer.from(resultdata);
+        }
+      }
+      return { resultdata, convertedType: desiredType };
+    } catch (error) {
+      logger.error('Error converting fragment type', {
+        id: this.id,
+        ownerId: this.ownerId,
+        error: error.message,
+      });
       return false;
     }
-    let resultdata = data;
-    if (this.mimeType !== desiredType) {
-      if (this.mimeType === 'text/markdown' && desiredType === 'text/html') {
-        resultdata = md.render(data.toString());
-        resultdata = Buffer.from(resultdata);
-      }
-    }
-    return { resultdata, convertedType: desiredType };
   }
 }
 
