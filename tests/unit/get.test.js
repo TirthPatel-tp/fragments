@@ -1,3 +1,5 @@
+// test/unit/get.test.js
+
 const request = require('supertest');
 
 const app = require('../../src/app');
@@ -37,6 +39,24 @@ describe('GET /v1/fragments', () => {
     const getRes = await request(app).get('/v1/fragments').auth('user2@email.com', 'password2');
     expect(getRes.statusCode).toBe(200);
     expect(getRes.body.fragments).toEqual([id1, id2]);
+  });
+
+  // Example of testing concurrency
+  test('multiple requests to create fragments concurrently do not interfere with each other', async () => {
+    const requests = [];
+    for (let i = 0; i < 5; i++) {
+      requests.push(
+        request(app)
+          .post('/v1/fragments')
+          .auth('user1@email.com', 'password1')
+          .set('Content-Type', 'text/plain')
+          .send(`Fragment ${i}`)
+      );
+    }
+    const responses = await Promise.all(requests);
+    responses.forEach((res) => {
+      expect(res.statusCode).toBe(201);
+    });
   });
 
   // GET /fragments?expand=1 returns expanded fragment metadata for an authenticated user

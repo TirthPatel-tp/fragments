@@ -2,6 +2,7 @@
 
 const { randomUUID } = require('crypto');
 const contentType = require('content-type');
+const mime = require('mime-types');
 const {
   readFragment,
   writeFragment,
@@ -147,7 +148,17 @@ class Fragment {
 
   get formats() {
     try {
-      return [this.mimeType];
+      if (this.mimeType === 'text/plain') {
+        return ['text/plain'];
+      } else if (this.mimeType === 'text/markdown') {
+        return ['text/plain', 'text/markdown', 'text/html'];
+      } else if (this.mimeType === 'text/html') {
+        return ['text/plain', 'text/html'];
+      } else if (this.mimeType === 'application/json') {
+        return ['text/plain', 'application/json'];
+      } else {
+        return [this.mimeType];
+      }
     } catch (error) {
       logger.error('Error getting fragment formats', {
         id: this.id,
@@ -181,8 +192,34 @@ class Fragment {
       return '';
     }
   }
+
+  static convertType(data, ext) {
+    try {
+      let desiredType = mime.lookup(ext);
+      const availableFormats = this.formats;
+      if (!availableFormats.includes(desiredType)) {
+        logger.warn("Can't convert to this type");
+        return false;
+      }
+      let resultdata = data;
+      if (this.mimeType !== desiredType) {
+        if (this.mimeType === 'text/markdown' && desiredType === 'text/html') {
+          resultdata = md.render(data.toString());
+          resultdata = Buffer.from(resultdata);
+        }
+      }
+      return { resultdata, convertedType: desiredType };
+    } catch (error) {
+      logger.error('Error converting fragment type', {
+        id: this.id,
+        ownerId: this.ownerId,
+        error: error.message,
+      });
+      return false;
+    }
+  }
 }
 
-const validTypes = ['text/plain'];
+const validTypes = ['text/plain', 'text/markdown', 'text/html', 'application/json'];
 
 module.exports.Fragment = Fragment;

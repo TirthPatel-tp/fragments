@@ -1,0 +1,234 @@
+[33mcommit f1546e731cb2419684b2cb6cf545b8229cbffac5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 11 15:25:01 2024 -0400
+
+    corrected-cd.yml
+
+[33mcommit 9b467eac302e3f753cf0e15b8fb150343bb0e503[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 11 15:18:05 2024 -0400
+
+    adding -cd.yml
+
+[33mcommit 02afc52ec71ccb6cd255cc3a64d83aa68579d489[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 11 13:42:35 2024 -0400
+
+    fixing 2
+
+[33mcommit 91389bc146d8801fe08289e42b444c0b5c2887cb[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 11 13:39:57 2024 -0400
+
+    fixing build-push
+
+[33mcommit 0b3423030806383811b5f2b4c00c6e18979881d5[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 11 13:33:28 2024 -0400
+
+    changes in yml
+
+[33mcommit 6621715886f9de00eac7b7e65b99bd4b1976b830[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 11 13:26:46 2024 -0400
+
+    adding docker push
+
+[33mcommit 985e57c04e838735c0ffd369e7595a8db6f598b3[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 11 12:18:31 2024 -0400
+
+    adding-hadolint
+
+[33mcommit c028f8858dc3564f63cae2738f7291dfb4dfb187[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 4 19:48:21 2024 -0500
+
+    lab-6-last-push
+
+[33mcommit 20ac98f75add3fd2d4c15222e212bceefa4623ac[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 4 18:36:39 2024 -0500
+
+    docker-updated
+
+[33mcommit ebd1ba767b73d7f78c5ae320327720b318feee0b[m
+Merge: a90bb1b e7431d8
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 4 14:35:50 2024 -0500
+
+    Completed merge
+
+[33mcommit a90bb1b65899a39177432b229649a1cb7102fc92[m
+Author: TirthPatel-tp <pateltirthpatel1011@gmail.com>
+Date:   Mon Mar 4 14:16:14 2024 -0500
+
+    Committing local changes to Dockerfile and .dockerignore
+
+[33mcommit e7431d8ba499e25326748a242084eccfdf486979[m[33m ([m[1;31mTirthPatel-tp/master[m[33m)[m
+Author: bhumipatel1894 <48902835+bhumipatel1894@users.noreply.github.com>
+Date:   Sun Feb 18 14:22:52 2024 -0500
+
+    added dockerfiles
+
+[33mcommit 1ce036f42d26834b04aacf766b112afca03430a2[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Feb 12 23:07:35 2024 -0500
+
+    Assignment-1 final
+
+[33mcommit 87d38b587dcfc87d140fffb332d7223a30eeaa6b[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Feb 12 20:28:01 2024 -0500
+
+    Post,gettest
+
+[33mcommit 8b03d11a424e1751d6b12f79db5564859d60ec4d[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Feb 12 12:03:46 2024 -0500
+
+    adding-logger.post.fragment
+
+[33mcommit 5792a8c610f32d45bbcb95d81b104be0e04b3a02[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Feb 12 11:55:17 2024 -0500
+
+    post-fragment
+
+[33mcommit c24f0ca50fe0e0e575ddab3b18e7fbcdeb33529f[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Jan 29 13:46:41 2024 -0500
+
+    lab3 - adding createSuccessResponse
+
+[33mcommit 7f5115a13b139bc953fc00a0a951cdc39a615e95[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Jan 29 13:28:46 2024 -0500
+
+    lab3 - fixingUnitTest
+
+[33mcommit e981c7a9193d6700418adbc5eae9f01333e863dc[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Jan 29 13:25:18 2024 -0500
+
+    lab3 - unitTest-breaking
+
+[33mcommit 2081845a9f2da5ccbe5b49d2df720b926e5ec35f[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Jan 29 13:21:05 2024 -0500
+
+    lab3 - adding unit-test
+
+[33mcommit 4a59e0c380e5680e5a7cb99e0258a3feac5434c4[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Jan 29 11:39:14 2024 -0500
+
+    fix eslint error
+
+[33mcommit ddd8b7387a9d147fd29ac3e8332bd9559890597e[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Jan 29 11:35:50 2024 -0500
+
+    breaking-lineLocally
+
+[33mcommit d027597f993da4c31447a813c89d503b5419f5d8[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Jan 29 11:32:10 2024 -0500
+
+    change to master
+
+[33mcommit 5101d221d414ebe37dc8034fb65e15d7920e5f28[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Mon Jan 29 11:29:15 2024 -0500
+
+    ci added
+
+[33mcommit 310ba6ec83b6dda96c3e6fcaea14e4e2703a1420[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Sun Jan 21 13:23:26 2024 -0500
+
+    .
+
+[33mcommit c9de008817f67682b153340904918f4745f39043[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Sun Jan 21 11:57:09 2024 -0500
+
+    lab2-final
+
+[33mcommit 33a83f69c18aafabc8172bf8dbc12666a6cf87c2[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Fri Jan 19 22:17:41 2024 -0500
+
+    added auth using passport
+
+[33mcommit 5f0b2b9ac11b019e593c69c8338173de5e2e2bae[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Fri Jan 19 21:39:43 2024 -0500
+
+    api and routes file created
+
+[33mcommit bbd9dc5d966f5ca58d56dd9c8cac49b4e8919126[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Fri Jan 19 21:17:53 2024 -0500
+
+    Switched to src/index.js as main entry point
+
+[33mcommit e3db23e85b29884481869eeaa1beab3ea1c86be6[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Fri Jan 19 21:11:00 2024 -0500
+
+    Add dotenv
+
+[33mcommit 6165b636036c1011ac14d37a4e87d58ec6cdca4e[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Sun Jan 14 12:32:11 2024 -0500
+
+    Update README with details on running the server
+
+[33mcommit 0aa717263ff82acb2d0d72626e71d9c95d467d4a[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Sun Jan 14 12:28:42 2024 -0500
+
+    Update README with details on running the server
+
+[33mcommit 3ff58be10ad5ae435ce0831a6cad3e57762f1de1[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Sun Jan 14 11:57:22 2024 -0500
+
+    Add startup scripts, nodemon, and VSCode debug launch config
+
+[33mcommit a0b571fdb18f0097043e6065cf8acf3d9d174e06[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Thu Jan 11 18:41:46 2024 -0500
+
+    Initial work on express app and server
+
+[33mcommit fad1cb2143a63cd1195ee9cac896d3e7c64ef20f[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Thu Jan 11 17:58:40 2024 -0500
+
+    Add pino logger
+
+[33mcommit 4cad1b451c2a4c5e28c533418d622fd66ec3a359[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Thu Jan 11 17:54:42 2024 -0500
+
+    Add eslint
+
+[33mcommit 1baad37b6e383df157b301a9eb85d2cb936820f2[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Thu Jan 11 17:39:00 2024 -0500
+
+    Add prettier
+
+[33mcommit c2b0a4db9cfa20cc87337c752f2efdeabeccf4c7[m
+Author: TirthPatel-tp <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Thu Jan 11 17:35:10 2024 -0500
+
+    Initial npm setup
+
+[33mcommit 0d08c976712bcc44f74d1a0d41f1903c952a73da[m
+Author: Tirth Patel <127706619+TirthPatel-tp@users.noreply.github.com>
+Date:   Thu Jan 11 16:04:29 2024 -0500
+
+    Initial commit

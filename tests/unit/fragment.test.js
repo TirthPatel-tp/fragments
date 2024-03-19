@@ -1,3 +1,5 @@
+// test/unit/fragment.js
+
 const { Fragment } = require('../../src/model/fragment');
 
 // Wait for a certain number of ms. Feel free to change this value
@@ -6,12 +8,12 @@ const wait = async (ms = 10) => new Promise((resolve) => setTimeout(resolve, ms)
 
 const validTypes = [
   `text/plain`,
-  /*
-   Currently, only text/plain is supported. Others will be added later.
-
   `text/markdown`,
   `text/html`,
   `application/json`,
+  /*
+   Currently, only text/plain is supported. Others will be added later.
+
   `image/png`,
   `image/jpeg`,
   `image/webp`,
@@ -35,6 +37,20 @@ describe('Fragment class', () => {
 
     test('type is required', () => {
       expect(() => new Fragment({ ownerId: '1234', size: 1 })).toThrow();
+    });
+
+    test('fragment size is properly handled at boundary values', async () => {
+      const fragment = new Fragment({
+        ownerId: '1234',
+        type: 'text/plain',
+        size: Number.MAX_SAFE_INTEGER,
+      });
+      // Test behavior when size is at maximum value
+      expect(fragment.size).toBe(Number.MAX_SAFE_INTEGER);
+
+      // Test behavior when size is set to 0
+      const fragment2 = new Fragment({ ownerId: '1234', type: 'text/plain', size: 0 });
+      expect(fragment2.size).toBe(0);
     });
 
     test('type can be a simple media type', () => {
