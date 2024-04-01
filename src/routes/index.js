@@ -1,6 +1,7 @@
 // src/routes/index.js
 
 const express = require('express');
+const { hostname } = require('os');
 const { createSuccessResponse } = require('../response');
 // version and author from package.json
 const { version, author } = require('../../package.json');
@@ -29,16 +30,16 @@ router.use(`/v1`, authenticate(), require('./api'));
  */
 router.get('/', (req, res) => {
   res.setHeader('Cache-Control', 'no-cache');
-
-  // Use createSuccessResponse function for the response
-  const healthCheckResponse = createSuccessResponse({
-    status: 'ok',
-    author,
-    githubUrl: 'https://github.com/TirthPatel-tp/fragments.git',
-    version,
-  });
-
-  res.status(200).json(healthCheckResponse);
+  res.status(200).json(
+    createSuccessResponse({
+      // TODO: make sure these are changed for your name and repo
+      author: 'Tirth Patel',
+      githubUrl: 'https://github.com/TirthPatel-tp/fragments.git',
+      version,
+      // Include the hostname in the response
+      hostname: hostname(),
+    })
+  );
 });
 
 module.exports = router;
