@@ -86,7 +86,6 @@ jobs:
           environment-variables: |
             LOG_LEVEL=debug
             NODE_ENV=production
-            # ...continue the rest here...
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
