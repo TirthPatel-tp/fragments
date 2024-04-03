@@ -18,12 +18,28 @@
       "essential": true,
       "environment": [
         {
+          "name": "AWS_COGNITO_POOL_ID",
+          "value": "us-east-1_HcJJcO8A0"
+        },
+        {
           "name": "PORT",
           "value": "80"
         },
         {
           "name": "LOG_LEVEL",
           "value": "debug"
+        },
+        {
+          "name": "AWS_COGNITO_CLIENT_ID",
+          "value": "dq2q7jmktlbioatovlc0ldf03"
+        },
+        {
+          "name": "API_URL",
+          "value": "fragments-lb-222858242.us-east-1.elb.amazonaws.com"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "us-east-1"
         }
       ],
       "environmentFiles": [],
