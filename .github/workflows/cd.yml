@@ -5,6 +5,7 @@
 #
 # To create a new tag, we also need to update the package.json version:
 #
+#trying to update
 # $ npm version 0.5.0
 #
 # This will update `version` in package.json to `0.5.0` and create a new
