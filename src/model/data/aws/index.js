@@ -2,12 +2,10 @@
 
 // XXX: temporary use of memory-db until we add DynamoDB
 const MemoryDB = require('../memory/memory-db');
-const logger = require('../../logger');
-
+const logger = require('../../../logger');
 const s3Client = require('./s3Client');
 const { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
-// Create two in-memory databases: one for fragment metadata and the other for raw data
 const metadata = new MemoryDB();
 
 // Write a fragment's metadata to memory db. Returns a Promise
@@ -54,8 +52,8 @@ const streamToBuffer = (stream) =>
     const chunks = [];
 
     // Streams have events that we can listen for and run
-    // code.  We need to know when new `data` is available,
-    // if there's an `error`, and when we're at the `end`
+    // code.  We need to know when new data is available,
+    // if there's an error, and when we're at the end
     // of the stream.
 
     // When there's data, add the chunk to our chunks list
@@ -104,27 +102,6 @@ async function listFragments(ownerId, expand = false) {
   return fragments.map((fragment) => fragment.id);
 }
 
-// Delete a fragment's metadata and data from S3. Returns a Promise
-// async function deleteFragment(ownerId, id) {
-//   const params = {
-//     Bucket: process.env.AWS_S3_BUCKET_NAME,
-//     Key: `${ownerId}/${id}`,
-//   };
-
-//   const command = new DeleteObjectCommand(params);
-
-//   try {
-//     await s3Client.send(command);
-//     // Since we're not using the in-memory database anymore,
-//     // we don't need to delete metadata from there.
-//     return; // Return nothing on successful deletion
-//   } catch (err) {
-//     const { Bucket, Key } = params;
-//     logger.error({ err, Bucket, Key }, 'Error deleting fragment data from S3');
-//     throw new Error('Unable to delete fragment data');
-//   }
-// }
-
 async function deleteFragment(ownerId, id) {
   // Create the DELETE API params from our details
   const params = {
@@ -145,11 +122,6 @@ async function deleteFragment(ownerId, id) {
     throw new Error('unable to delete fragment data');
   }
 }
-
-// If the environment sets an AWS Region, we'll use AWS backend
-// services (S3, DynamoDB); otherwise, we'll use an in-memory db.
-module.exports = process.env.AWS_REGION ? require('./aws') : require('./memory');
-
 module.exports.listFragments = listFragments;
 module.exports.writeFragment = writeFragment;
 module.exports.readFragment = readFragment;
