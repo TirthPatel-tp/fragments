@@ -85,14 +85,10 @@ jobs:
           environment-variables: |
             LOG_LEVEL=debug
             NODE_ENV=production
-            AWS_COGNITO_POOL_ID=us-east-1_9NYdCuwVL
-            API_URL=http://fragments-lb-1176223027.us-east-1.elb.amazonaws.com:80
-            PORT=80
-            AWS_COGNITO_CLIENT_ID=5i3pi42a05prni6ppamt0iok9n
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.update-task-def.outputs.task-definition }}
-          cluster: fragments-cluster
+          cluster: fragments-clusterw
           service: fragments-service
           wait-for-service-stability: true
