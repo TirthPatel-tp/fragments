@@ -44,10 +44,6 @@
         {
           "name": "AWS_S3_BUCKET_NAME",
           "value": "tpatel103-fragments"
-        },
-        {
-          "name": "AWS_S3_ENDPOINT_URL",
-          "value": "http://localhost:4566"
         }
       ],
       "environmentFiles": [],
