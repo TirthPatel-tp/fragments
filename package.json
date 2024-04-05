@@ -1,7 +1,7 @@
 {
   "name": "fragments",
   "private": true,
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "CCP555NSA Course all the labs and assignment will be posted here",
   "main": "index.js",
   "scripts": {
