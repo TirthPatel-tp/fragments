@@ -36,6 +36,10 @@ router.get('/fragments/:id/info', require('./get-metadata'));
 // Use a raw body parser for POST, which will give a Buffer Object or {} at req.body
 router.post('/fragments', rawBody(), require('./post'));
 
+// Define a route for deleting fragments
 router.delete('/fragments/:id', require('./delete'));
+
+// Log endpoint mounting
+logger.debug('API endpoints mounted successfully.');
 
 module.exports = router;

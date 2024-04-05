@@ -207,6 +207,7 @@ class Fragment {
           resultdata = Buffer.from(resultdata);
         }
       }
+      logger.debug('Fragment type converted successfully', { id: this.id, ownerId: this.ownerId });
       return { resultdata, convertedType: desiredType };
     } catch (error) {
       logger.error('Error converting fragment type', {

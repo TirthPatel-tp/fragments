@@ -1,6 +1,5 @@
-// src/model/data/memory/memory-db.js
-
 const validateKey = (key) => typeof key === 'string';
+const logger = require('../../../logger');
 
 class MemoryDB {
   constructor() {
@@ -16,9 +15,9 @@ class MemoryDB {
    */
   get(primaryKey, secondaryKey) {
     if (!(validateKey(primaryKey) && validateKey(secondaryKey))) {
-      throw new Error(
-        `primaryKey and secondaryKey strings are required, got primaryKey=${primaryKey}, secondaryKey=${secondaryKey}`
-      );
+      const errorMessage = `primaryKey and secondaryKey strings are required, got primaryKey=${primaryKey}, secondaryKey=${secondaryKey}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
 
     const db = this.db;
@@ -34,9 +33,9 @@ class MemoryDB {
    */
   put(primaryKey, secondaryKey, value) {
     if (!(validateKey(primaryKey) && validateKey(secondaryKey))) {
-      throw new Error(
-        `primaryKey and secondaryKey strings are required, got primaryKey=${primaryKey}, secondaryKey=${secondaryKey}`
-      );
+      const errorMessage = `primaryKey and secondaryKey strings are required, got primaryKey=${primaryKey}, secondaryKey=${secondaryKey}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
 
     const db = this.db;
@@ -55,7 +54,9 @@ class MemoryDB {
    */
   query(primaryKey) {
     if (!validateKey(primaryKey)) {
-      throw new Error(`primaryKey string is required, got primaryKey=${primaryKey}`);
+      const errorMessage = `primaryKey string is required, got primaryKey=${primaryKey}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
 
     // No matter what, we always return an array (even if empty)
@@ -72,16 +73,16 @@ class MemoryDB {
    */
   async del(primaryKey, secondaryKey) {
     if (!(validateKey(primaryKey) && validateKey(secondaryKey))) {
-      throw new Error(
-        `primaryKey and secondaryKey strings are required, got primaryKey=${primaryKey}, secondaryKey=${secondaryKey}`
-      );
+      const errorMessage = `primaryKey and secondaryKey strings are required, got primaryKey=${primaryKey}, secondaryKey=${secondaryKey}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
 
     // Throw if trying to delete a key that doesn't exist
     if (!(await this.get(primaryKey, secondaryKey))) {
-      throw new Error(
-        `missing entry for primaryKey=${primaryKey} and secondaryKey=${secondaryKey}`
-      );
+      const errorMessage = `missing entry for primaryKey=${primaryKey} and secondaryKey=${secondaryKey}`;
+      logger.error(errorMessage);
+      throw new Error(errorMessage);
     }
 
     const db = this.db;

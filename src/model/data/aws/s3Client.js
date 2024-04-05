@@ -1,5 +1,3 @@
-// src/model/data/aws/s3Client.js
-
 /**
  * S3 specific config and objects.  See:
  * https://www.npmjs.com/package/@aws-sdk/client-s3
@@ -46,7 +44,7 @@ const getS3Endpoint = () => {
  * not have various configuration settings, and will pass
  * `undefined` when we don't (i.e. we'll ignore them).
  */
-module.exports = new S3Client({
+const s3Client = new S3Client({
   // The region is always required
   region: process.env.AWS_REGION,
   // Credentials are optional (only MinIO needs them, or if you connect to AWS remotely from your laptop)
@@ -56,3 +54,12 @@ module.exports = new S3Client({
   // We always want to use path style key names
   forcePathStyle: true,
 });
+
+// Add logging for AWS SDK client configuration
+logger.debug('Configured S3 Client', {
+  region: process.env.AWS_REGION,
+  endpoint: process.env.AWS_S3_ENDPOINT_URL,
+  credentialsExist: !!getCredentials(),
+});
+
+module.exports = s3Client;

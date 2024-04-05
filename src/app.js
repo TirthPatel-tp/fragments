@@ -1,5 +1,3 @@
-// src/app.js
-
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -14,7 +12,7 @@ const pino = require('pino-http')({
 
 const app = express();
 
-// Set up our passport authentication middleware
+// Set up Passport authentication middleware
 passport.use(authenticate.strategy());
 app.use(passport.initialize());
 
@@ -24,31 +22,27 @@ app.use(pino);
 // Use helmetjs security middleware
 app.use(helmet());
 
-// Use CORS middleware so we can make requests across origins
+// Use CORS middleware to handle cross-origin requests
 app.use(cors());
 
 // Use gzip/deflate compression middleware
 app.use(compression());
 
-// Define our routes
+// Define routes
 app.use('/', require('./routes'));
 
-// Add 404 middleware to handle any requests for resources that can't be found
+// Handle requests for resources that can't be found (404)
 app.use((req, res) => {
-  // Use createErrorResponse function for the response
   const errorResponse = createErrorResponse(404, 'not found');
-
   res.status(404).json(errorResponse);
 });
 
-// Add error-handling middleware to deal with anything else
+// Error-handling middleware for any other errors
 app.use((err, req, res) => {
-  // We may already have an error response we can use, but if not,
-  // use a generic `500` server error and message.
   const status = err.status || 500;
   const message = err.message || 'unable to process request';
 
-  // If this is a server error, log something so we can see what's going on.
+  // Log server errors for debugging
   if (status > 499) {
     logger.error({ err }, `Error processing request`);
   }
@@ -62,5 +56,5 @@ app.use((err, req, res) => {
   });
 });
 
-// Export our `app` so we can access it in server.js
+// Export the Express app
 module.exports = app;

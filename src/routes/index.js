@@ -1,5 +1,3 @@
-// src/routes/index.js
-
 const express = require('express');
 const { hostname } = require('os');
 const { createSuccessResponse } = require('../response');

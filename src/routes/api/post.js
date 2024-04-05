@@ -3,7 +3,9 @@ const { Fragment } = require('../../model/fragment');
 const logger = require('../../logger');
 
 module.exports = async (req, res) => {
-  logger.debug('Received request with body: ' + JSON.stringify(req.body));
+  logger.debug('Received POST request to create a new fragment.');
+
+  logger.debug('Request body: ' + JSON.stringify(req.body));
 
   if (!Buffer.isBuffer(req.body)) {
     logger.error('Unsupported Media Type: Request body is not a buffer');

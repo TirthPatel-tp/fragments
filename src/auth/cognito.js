@@ -1,5 +1,3 @@
-// src/auth/cognito.js
-
 // Configure a JWT token strategy for Passport based on
 // Identity Token provided by Cognito. The token will be
 // parsed from the Authorization header (i.e., Bearer Token).
@@ -46,12 +44,12 @@ module.exports.strategy = () =>
     try {
       // Verify this JWT
       const user = await jwtVerifier.verify(token);
-      logger.debug({ user }, 'verified user token');
+      logger.debug({ user }, 'Verified user token');
 
       // Create a user, but only bother with their email
       done(null, user.email);
     } catch (err) {
-      logger.error({ err, token }, 'could not verify token');
+      logger.error({ err, token }, 'Could not verify token');
       done(null, false);
     }
   });
