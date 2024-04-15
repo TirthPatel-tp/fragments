@@ -39,6 +39,8 @@ router.post('/fragments', rawBody(), require('./post'));
 // Define a route for deleting fragments
 router.delete('/fragments/:id', require('./delete'));
 
+router.put('/fragments/:id', rawBody(), require('./put'));
+
 // Log endpoint mounting
 logger.debug('API endpoints mounted successfully.');
 
