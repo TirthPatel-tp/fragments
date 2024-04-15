@@ -71,6 +71,6 @@ describe('GET /v1/fragments/:id', () => {
       .get(`/v1/fragments/${id}.unsupported`)
       .auth('user2@email.com', 'password2');
 
-    expect(getRes.statusCode).toBe(404);
+    expect(getRes.statusCode).toBe(415);
   });
 });

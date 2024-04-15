@@ -55,4 +55,4 @@ HEALTHCHECK --interval=30s --timeout=5s \
 CMD ["npm","start"]
 
 # We run our service on port 8080
-EXPOSE 8080
+EXPOSE ${PORT}

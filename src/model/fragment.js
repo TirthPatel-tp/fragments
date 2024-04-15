@@ -114,9 +114,38 @@ class Fragment {
     return type;
   }
 
-  static async convertType(data, ext) {
-    let desiredType = mime.lookup(ext);
-    const availableFormats = this.formats;
+  // static async convertType(data, extension) {
+  //   let desiredType = mime.lookup(extension);
+  //   const availableFormats = this.formats;
+  //   if (!availableFormats.includes(desiredType)) {
+  //     logger.warn("Can't convert to this type");
+  //     return false;
+  //   }
+  //   let resultdata = data;
+  //   if (this.mimeType !== desiredType) {
+  //     if (this.mimeType === 'text/markdown' && desiredType === 'text/html') {
+  //       resultdata = md.render(data.toString());
+  //       resultdata = Buffer.from(resultdata);
+  //     } else if (desiredType === 'image/jpeg') {
+  //       resultdata = await sharp(data).jpeg().toBuffer();
+  //     } else if (desiredType === 'image/png') {
+  //       resultdata = await sharp(data).png().toBuffer();
+  //     } else if (desiredType === 'image/webp') {
+  //       resultdata = await sharp(data).webp().toBuffer();
+  //     } else if (desiredType === 'image/gif') {
+  //       resultdata = await sharp(data).gif().toBuffer();
+  //     }
+  //   }
+  //   logger.debug('Fragment type converted successfully', { id: this.id, ownerId: this.ownerId });
+  //   return { resultdata, convertedType: desiredType };
+  // }
+  static async convertType(data, extension) {
+    // Create an instance of Fragment to access the formats property
+    const fragmentInstance = new Fragment({ type: '' });
+
+    let desiredType = mime.lookup(extension);
+    const availableFormats = fragmentInstance.formats; // Access formats property using an instance
+
     if (!availableFormats.includes(desiredType)) {
       logger.warn("Can't convert to this type");
       return false;
@@ -138,6 +167,58 @@ class Fragment {
     }
     logger.debug('Fragment type converted successfully', { id: this.id, ownerId: this.ownerId });
     return { resultdata, convertedType: desiredType };
+  }
+
+  async textConvert(value) {
+    var result, data;
+    data = await this.getData();
+    if (value == 'plain') {
+      if (this.type == 'application/json') {
+        result = JSON.parse(data);
+      } else {
+        result = data;
+      }
+    } else if (value == 'html') {
+      if (this.type.endsWith('markdown')) {
+        result = md.render(data.toString());
+      }
+    }
+    return result;
+  }
+
+  async imgConvert(value) {
+    var result, data;
+    data = await this.getData();
+
+    if (this.type.startsWith('image')) {
+      if (value == 'jpg' || value == 'jpeg') {
+        result = await sharp(data).jpeg();
+      } else if (value == 'webp') {
+        result = await sharp(data).webp();
+      } else if (value == 'png') {
+        result = await sharp(data).png();
+      }
+    }
+    return result.toBuffer();
+  }
+
+  /**
+   * Returns string of newly changed type name by changing extension
+   * @param {string} value extension to be changed
+   * @returns {string} changes type name
+   */
+  extConvert(value) {
+    var ext;
+    if (value == 'txt') {
+      ext = 'plain';
+    } else if (value == 'md') {
+      ext = 'markdown';
+    } else if (value == 'jpg') {
+      ext = 'jpeg';
+    } else {
+      ext = value;
+    }
+    return ext;
   }
 }
 
